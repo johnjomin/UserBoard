@@ -40,8 +40,10 @@ def sample_user_data():
 
 def test_create_user(user_repository, sample_user_data):
     """Test creating a new user"""
+    # Act
     user = user_repository.create_user(sample_user_data)
     
+    # Assert
     assert user.id is not None
     assert user.firstname == "John"
     assert user.lastname == "Doe"
@@ -50,22 +52,29 @@ def test_create_user(user_repository, sample_user_data):
 
 def test_get_all_users_empty(user_repository):
     """Test getting all users when database is empty"""
+    # Act
     users = user_repository.get_all_users()
+
+    # Assert
     assert users == []
 
 def test_get_all_users_with_data(user_repository, sample_user_data):
     """Test getting all users when there is data"""
+    # Act
     user_repository.create_user(sample_user_data)
-    
     users = user_repository.get_all_users()
+
+    # Assert
     assert len(users) == 1
     assert users[0].firstname == "John"
 
 def test_delete_user_success(user_repository, sample_user_data):
     """Test successful user deletion"""
+    # Act
     user = user_repository.create_user(sample_user_data)
-    
     result = user_repository.delete_user(user.id)
+
+    # Assert
     assert result is True
     
     # Verify user is deleted
@@ -74,5 +83,8 @@ def test_delete_user_success(user_repository, sample_user_data):
 
 def test_delete_user_not_found(user_repository):
     """Test deleting a non-existent user"""
+    # Act
     result = user_repository.delete_user(999)
+
+    # Assert
     assert result is False
